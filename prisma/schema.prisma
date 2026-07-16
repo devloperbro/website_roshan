@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  clerkId   String    @unique
+  name      String
+  email     String    @unique
+  phone     String?
+  role      Role      @default(CUSTOMER)
+  addresses Address[]
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+model Address {
+  id           String   @id @default(cuid())
+  label        String
+  fullName     String
+  phone        String
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  state        String
+  pincode      String
+  isDefault    Boolean  @default(false)
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+}
+
+model Booking {
+  id                String          @id @default(cuid())
+  trackingId        String          @unique
+  userId            String
+  user              User            @relation(fields: [userId], references: [id])
+  pickupAddress     Json
+  deliveryAddress   Json
+  receiverName      String
+  receiverPhone     String
+  receiverEmail     String?
+  weightKg          Float
+  category          String
+  isExpress         Boolean         @default(false)
+  isFragile         Boolean         @default(false)
+  declaredValue     Float           @default(0)
+  notes             String?
+  totalCost         Float
+  status            ShipmentStatus  @default(BOOKED)
+  events            TrackingEvent[]
+  invoice           Invoice?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+enum ShipmentStatus {
+  BOOKED
+  PICKED_UP
+  WAREHOUSE
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+}
+
+model TrackingEvent {
+  id        String         @id @default(cuid())
+  bookingId String
+  booking   Booking        @relation(fields: [bookingId], references: [id])
+  status    ShipmentStatus
+  location  String
+  note      String
+  timestamp DateTime       @default(now())
+}
+
+model Invoice {
+  id            String        @id @default(cuid())
+  invoiceNumber String        @unique
+  bookingId     String        @unique
+  booking       Booking       @relation(fields: [bookingId], references: [id])
+  amount        Float
+  status        InvoiceStatus @default(PENDING)
+  issuedAt      DateTime      @default(now())
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+}
