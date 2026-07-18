@@ -2,16 +2,39 @@ import type { Metadata } from "next";
 import { Bell } from "lucide-react";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 import { Card, CardContent } from "@/components/ui/card";
-import { notifications } from "@/lib/data/dashboard";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Notifications" };
+
+const exampleNotifications = [
+  {
+    id: "1",
+    title: "Shipment Out For Delivery",
+    description: "LGX10098213 is out for delivery in Pune.",
+    time: "2 hours ago",
+    read: false,
+  },
+  {
+    id: "2",
+    title: "Shipment In Transit",
+    description: "LGX10023456 has left the Mumbai sorting hub.",
+    time: "6 hours ago",
+    read: false,
+  },
+  {
+    id: "3",
+    title: "Booking Confirmed",
+    description: "Your shipment LGX10056789 has been confirmed.",
+    time: "1 day ago",
+    read: true,
+  },
+];
 
 export default function NotificationsPage() {
   return (
     <DashboardShell>
       <div className="space-y-3">
-        {notifications.map((notification) => (
+        {exampleNotifications.map((notification) => (
           <Card key={notification.id} className={cn(!notification.read && "border-brand-primary/40")}>
             <CardContent className="flex items-start gap-3 pt-6">
               <span
@@ -30,6 +53,12 @@ export default function NotificationsPage() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      <div className="mt-8 rounded-2xl border border-dashed border-border p-8 text-center">
+        <p className="text-sm text-muted-foreground">
+          <strong>Coming Soon:</strong> Real-time notifications for shipment updates, delivery confirmations, and more.
+        </p>
       </div>
     </DashboardShell>
   );
