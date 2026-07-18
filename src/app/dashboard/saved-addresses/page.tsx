@@ -59,12 +59,6 @@ export default function SavedAddressesPage() {
           </Card>
         ))}
       </div>
-
-      <div className="mt-8 rounded-2xl border border-dashed border-border p-8 text-center">
-        <p className="text-sm text-muted-foreground">
-          <strong>Coming Soon:</strong> Manage and add multiple addresses for faster bookings.
-        </p>
-      </div>
     </DashboardShell>
   );
 }
