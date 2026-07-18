@@ -9,6 +9,9 @@ import { AddressForm } from "@/components/booking/address-form";
 import { PackageDetailsForm } from "@/components/booking/package-details-form";
 import { ReceiverDetailsForm } from "@/components/booking/receiver-details-form";
 import { ReviewOrder } from "@/components/booking/review-order";
+import { useAuth } from "@/lib/auth-context";
+import { calculateShipmentCost } from "@/lib/cost-calculator";
+import { confirmBookingAction } from "@/actions/booking";
 import type { AddressInput, PackageDetailsInput, ReceiverDetailsInput } from "@/lib/validations";
 
 const steps = [
@@ -21,6 +24,7 @@ const steps = [
 
 export function BookingWizard() {
   const router = useRouter();
+  const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const {
     step,
@@ -58,14 +62,34 @@ export function BookingWizard() {
     setStep(5);
   }
 
-  function handleConfirm() {
+  async function handleConfirm() {
     setIsSubmitting(true);
     const trackingId = confirmBooking();
-    setTimeout(() => {
-      toast.success(`Booking confirmed! Tracking ID: ${trackingId}`);
-      router.push("/checkout");
-      setIsSubmitting(false);
-    }, 600);
+
+    const breakdown = calculateShipmentCost({
+      weightKg: packageDetails.weightKg ?? 0,
+      isExpress: packageDetails.isExpress ?? false,
+      isFragile: packageDetails.isFragile ?? false,
+      declaredValue: packageDetails.declaredValue ?? 0,
+    });
+
+    try {
+      await confirmBookingAction({
+        trackingId,
+        userId: user?.id ?? null,
+        pickup,
+        delivery,
+        packageDetails,
+        receiver,
+        amount: breakdown.total,
+      });
+    } catch {
+      // Non-blocking — booking still proceeds even if save/email fails
+    }
+
+    toast.success(`Booking confirmed! Tracking ID: ${trackingId}`);
+    router.push("/checkout");
+    setIsSubmitting(false);
   }
 
   return (
