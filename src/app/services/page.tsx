@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Box, Globe, ShieldCheck, Truck, Warehouse, Zap, type LucideIcon } from "lucide-react";
+import { ArrowRight, Box, Globe, ShieldCheck, Truck, Warehouse, Zap, MapPin, type LucideIcon } from "lucide-react";
+import { ServiceLocationsMap } from "@/components/map/service-locations-map";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { productCategories, products } from "@/lib/data/products";
@@ -81,6 +82,18 @@ export default function ServicesPage() {
             View Full Pricing Catalog <ArrowRight className="ml-1 size-4" />
           </Link>
         </Button>
+      </div>
+
+      <div className="mt-24">
+        <div className="mb-8 flex items-center gap-3">
+          <MapPin className="size-6 text-brand-primary" />
+          <h2 className="text-2xl font-bold text-brand-primary">Service Locations</h2>
+        </div>
+        <p className="mb-6 text-muted-foreground">
+          We operate across 13 major cities in India. Click any pin to see available services,
+          contact details, and working hours.
+        </p>
+        <ServiceLocationsMap />
       </div>
       </div>
     </div>

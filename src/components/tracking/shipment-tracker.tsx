@@ -21,6 +21,7 @@ import {
   shipmentStatuses,
   type Shipment,
 } from "@/lib/data/tracking";
+import { ShipmentMap } from "@/components/map/shipment-map";
 import { cn } from "@/lib/utils";
 
 export function ShipmentTracker() {
@@ -139,6 +140,16 @@ export function ShipmentTracker() {
                   </div>
                 </div>
               ))}
+          </div>
+
+          <div className="border-t border-border pt-4">
+            <p className="mb-3 text-sm font-semibold">Current Location</p>
+            <ShipmentMap
+              lat={shipment.latitude}
+              lng={shipment.longitude}
+              city={shipment.currentStatus === "Delivered" ? shipment.receiverCity : `En route to ${shipment.receiverCity}`}
+              status={shipment.currentStatus}
+            />
           </div>
         </div>
       )}

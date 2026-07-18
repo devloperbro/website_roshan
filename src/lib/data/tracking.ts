@@ -30,6 +30,8 @@ export interface Shipment {
   estimatedDelivery: string;
   weightKg: number;
   serviceType: string;
+  latitude: number;
+  longitude: number;
   events: TrackingEvent[];
 }
 
@@ -42,6 +44,8 @@ export const mockShipments: Shipment[] = [
     estimatedDelivery: "2026-07-18",
     weightKg: 4.5,
     serviceType: "Express Delivery",
+    latitude: 15.3173,
+    longitude: 75.7139,
     events: [
       { status: "Booked", timestamp: "2026-07-15 09:12", location: "Mumbai, MH", note: "Shipment booked online." },
       { status: "Picked Up", timestamp: "2026-07-15 14:30", location: "Mumbai, MH", note: "Package picked up by courier partner." },
@@ -57,6 +61,8 @@ export const mockShipments: Shipment[] = [
     estimatedDelivery: "2026-07-16",
     weightKg: 2.1,
     serviceType: "Standard Courier",
+    latitude: 18.5204,
+    longitude: 73.8567,
     events: [
       { status: "Booked", timestamp: "2026-07-13 11:00", location: "Delhi, DL", note: "Shipment booked online." },
       { status: "Picked Up", timestamp: "2026-07-13 16:45", location: "Delhi, DL", note: "Package picked up by courier partner." },
@@ -73,6 +79,8 @@ export const mockShipments: Shipment[] = [
     estimatedDelivery: "2026-07-10",
     weightKg: 6.8,
     serviceType: "LTL Freight",
+    latitude: 17.385,
+    longitude: 78.4867,
     events: [
       { status: "Booked", timestamp: "2026-07-07 10:00", location: "Chennai, TN", note: "Shipment booked online." },
       { status: "Picked Up", timestamp: "2026-07-07 15:00", location: "Chennai, TN", note: "Package picked up by courier partner." },

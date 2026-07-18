@@ -59,3 +59,29 @@ export type ContactFormInput = z.infer<typeof contactFormSchema>;
 export const trackingSchema = z.object({
   trackingId: z.string().min(6, "Enter a valid tracking ID"),
 });
+
+export const loginSchema = z.object({
+  email: z.string().min(1, "Email is required").email("Enter a valid email"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+export const signupSchema = z
+  .object({
+    fullName: z.string().min(3, "Full name must be at least 3 characters"),
+    email: z.string().min(1, "Email is required").email("Enter a valid email"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .regex(/[A-Z]/, "Must contain at least 1 uppercase letter")
+      .regex(/[a-z]/, "Must contain at least 1 lowercase letter")
+      .regex(/[0-9]/, "Must contain at least 1 number")
+      .regex(/[^A-Za-z0-9]/, "Must contain at least 1 special character"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export type LoginInput = z.infer<typeof loginSchema>;
+export type SignupInput = z.infer<typeof signupSchema>;

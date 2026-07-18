@@ -16,10 +16,10 @@ const values = [
 ];
 
 const milestones = [
-  { year: "2016", text: "Nirpakh LogisticPro founded with a fleet of 12 vehicles in Mumbai." },
-  { year: "2019", text: "Expanded to 10 states with dedicated warehousing hubs." },
-  { year: "2022", text: "Launched e-commerce fulfillment and cold chain logistics." },
-  { year: "2026", text: "Operating across 24 states with 3,200+ fleet vehicles." },
+  { year: "2025", text: "Nirpakh LogisticPro founded with a fleet of 12 vehicles in Mumbai — built on trust, speed, and transparency." },
+  { year: "2025", text: "Launched express and standard courier services, covering 5 major metro cities within the first quarter." },
+  { year: "2025", text: "Onboarded 200+ e-commerce businesses and expanded to 12 states with two dedicated sorting hubs." },
+  { year: "2026", text: "Introduced real-time shipment tracking, cold chain logistics, and 24-state nationwide coverage." },
 ];
 
 export default function AboutPage() {

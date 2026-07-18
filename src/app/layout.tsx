@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/lib/auth-context";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -85,12 +86,14 @@ export default function RootLayout({
             }),
           }}
         />
-        <div className="flex min-h-screen flex-col">
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
-        <Toaster position="top-right" richColors />
+        <AuthProvider>
+          <div className="flex min-h-screen flex-col">
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+          <Toaster position="top-right" richColors />
+        </AuthProvider>
       </body>
     </html>
   );
